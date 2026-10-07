@@ -2,28 +2,84 @@
 
 import Image from "next/image";
 import { FormEvent, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function CadastroParceiroPage() {
   const [aceite, setAceite] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [sucesso, setSucesso] = useState(false);
+  const [erro, setErro] = useState("");
 
-  function enviarCadastro(event: FormEvent<HTMLFormElement>) {
+  async function enviarCadastro(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!aceite) {
-      return;
-    }
+    if (!aceite || enviando) return;
 
-    alert(
-      "Cadastro preenchido. Na próxima etapa conectaremos este formulário ao sistema."
-    );
+    setEnviando(true);
+    setErro("");
+    setSucesso(false);
+
+    const form = event.currentTarget;
+    const dados = new FormData(form);
+
+    const cadastro = {
+      nome_salao: String(dados.get("nomeSalao") || "").trim(),
+      cnpj: String(dados.get("cnpj") || "").trim() || null,
+      instagram: String(dados.get("instagram") || "").trim() || null,
+      whatsapp_salao: String(dados.get("whatsappSalao") || "").trim(),
+      cidade: String(dados.get("cidade") || "").trim(),
+      estado: String(dados.get("estado") || "").trim().toUpperCase(),
+
+      responsavel_nome: String(dados.get("responsavel") || "").trim(),
+      responsavel_cpf: String(dados.get("cpf") || "").trim(),
+      responsavel_email: String(dados.get("email") || "")
+        .trim()
+        .toLowerCase(),
+      responsavel_whatsapp: String(
+        dados.get("whatsappResponsavel") || ""
+      ).trim(),
+
+      status: "pendente",
+    };
+
+    try {
+      const { error } = await supabase.from("saloes").insert(cadastro);
+
+      if (error) {
+        const mensagemTecnica = [
+          `Mensagem: ${error.message || "sem mensagem"}`,
+          `Código: ${error.code || "sem código"}`,
+          `Detalhes: ${error.details || "sem detalhes"}`,
+          `Dica: ${error.hint || "sem dica"}`,
+        ].join(" | ");
+
+        console.error("ERRO SUPABASE:", mensagemTecnica);
+        setErro(mensagemTecnica);
+        setEnviando(false);
+        return;
+      }
+
+      form.reset();
+      setAceite(false);
+      setErro("");
+      setSucesso(true);
+      setEnviando(false);
+    } catch (error) {
+      const mensagem =
+        error instanceof Error
+          ? error.message
+          : "Erro desconhecido de comunicação com o Supabase.";
+
+      console.error("ERRO DE CONEXÃO:", mensagem);
+      setErro(`Erro de conexão: ${mensagem}`);
+      setEnviando(false);
+    }
   }
 
   return (
     <main className="min-h-screen bg-[#fff8f5] text-[#2b1d24]">
-      {/* HERO */}
       <section className="overflow-hidden bg-gradient-to-br from-[#fff5ef] via-[#fbe8e5] to-[#f3d6dc]">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 md:grid-cols-2 md:py-16">
-          {/* TEXTO */}
           <div className="order-2 md:order-1">
             <p className="mb-6 text-sm font-bold uppercase tracking-[0.35em] text-[#b65375]">
               Beleza &amp; Empoderamento
@@ -48,7 +104,6 @@ export default function CadastroParceiroPage() {
             </div>
           </div>
 
-          {/* FOTO OSCAR */}
           <div className="order-1 md:order-2">
             <div className="relative mx-auto max-w-[520px] overflow-hidden rounded-[2rem] bg-white p-2 shadow-2xl">
               <Image
@@ -63,7 +118,6 @@ export default function CadastroParceiroPage() {
 
             <div className="mt-5 text-center">
               <p className="text-xl font-bold">Oscar Ahumada</p>
-
               <p className="mt-1 text-sm font-semibold uppercase tracking-[0.18em] text-[#a65d78]">
                 Numerólogo das Estrelas
               </p>
@@ -72,7 +126,6 @@ export default function CadastroParceiroPage() {
         </div>
       </section>
 
-      {/* INTRODUÇÃO */}
       <section className="px-5 pb-6 pt-14">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#b65375]">
@@ -90,13 +143,11 @@ export default function CadastroParceiroPage() {
         </div>
       </section>
 
-      {/* FORMULÁRIO */}
       <section className="px-5 pb-16 pt-8">
         <form
           onSubmit={enviarCadastro}
           className="mx-auto max-w-5xl rounded-[2rem] bg-white p-7 shadow-sm md:p-12"
         >
-          {/* DADOS DO ESTABELECIMENTO */}
           <div>
             <h3 className="text-2xl font-bold text-[#ad5b79]">
               Dados do estabelecimento
@@ -147,7 +198,6 @@ export default function CadastroParceiroPage() {
 
           <div className="my-12 h-px bg-[#ecd9df]" />
 
-          {/* RESPONSÁVEL */}
           <div>
             <h3 className="text-2xl font-bold text-[#ad5b79]">
               Responsável pela parceria
@@ -187,7 +237,6 @@ export default function CadastroParceiroPage() {
 
           <div className="my-12 h-px bg-[#ecd9df]" />
 
-          {/* MODELO COMERCIAL */}
           <div className="rounded-[1.5rem] bg-[#fff2f5] p-7 md:p-9">
             <h3 className="text-2xl font-bold">Como funciona a parceria</h3>
 
@@ -214,7 +263,6 @@ export default function CadastroParceiroPage() {
               </p>
             </div>
 
-            {/* RESUMO FINANCEIRO */}
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               <div className="rounded-2xl bg-white p-5 text-center">
                 <p className="text-sm font-semibold uppercase tracking-wider text-[#9d7180]">
@@ -241,7 +289,6 @@ export default function CadastroParceiroPage() {
             </div>
           </div>
 
-          {/* O QUE SERÁ ENTREGUE */}
           <div className="mt-8 rounded-[1.5rem] border border-[#ecd9df] p-7 md:p-9">
             <h3 className="text-2xl font-bold">O que a cliente receberá</h3>
 
@@ -287,35 +334,66 @@ export default function CadastroParceiroPage() {
             </div>
           </div>
 
-          {/* ACEITE */}
-          <label className="mt-9 flex cursor-pointer items-start gap-4">
-            <input
-              type="checkbox"
-              checked={aceite}
-              onChange={(event) => setAceite(event.target.checked)}
-              className="mt-1 h-5 w-5 accent-[#a74367]"
-            />
+          {erro && (
+            <div className="mt-8 rounded-xl border border-red-300 bg-red-50 p-5">
+              <p className="font-bold text-red-800">
+                Não foi possível concluir o cadastro.
+              </p>
 
-            <span className="text-base leading-7 text-[#6f5962]">
-              Declaro que os dados informados são verdadeiros e desejo
-              solicitar minha participação como parceiro do Beleza &amp;
-              Empoderamento.
-            </span>
-          </label>
+              <p className="mt-2 break-words text-sm leading-6 text-red-700">
+                {erro}
+              </p>
+            </div>
+          )}
 
-          {/* BOTÃO */}
-          <button
-            type="submit"
-            disabled={!aceite}
-            className="mt-9 w-full rounded-full bg-[#9d4969] px-8 py-5 text-base font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#843b58] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Quero ser parceiro
-          </button>
+          {!sucesso ? (
+            <>
+              <label className="mt-9 flex cursor-pointer items-start gap-4">
+                <input
+                  type="checkbox"
+                  checked={aceite}
+                  onChange={(event) => setAceite(event.target.checked)}
+                  className="mt-1 h-5 w-5 accent-[#a74367]"
+                />
 
-          <p className="mt-5 text-center text-sm leading-6 text-[#8b747d]">
-            Após a aprovação do cadastro, o salão terá acesso à sua área
-            exclusiva para realizar e acompanhar os pedidos.
-          </p>
+                <span className="text-base leading-7 text-[#6f5962]">
+                  Declaro que os dados informados são verdadeiros e desejo
+                  solicitar minha participação como parceiro do Beleza &amp;
+                  Empoderamento.
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                disabled={!aceite || enviando}
+                className="mt-9 w-full rounded-full bg-[#9d4969] px-8 py-5 text-base font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#843b58] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {enviando ? "ENVIANDO CADASTRO..." : "QUERO SER PARCEIRO"}
+              </button>
+
+              <p className="mt-5 text-center text-sm leading-6 text-[#8b747d]">
+                Após a aprovação do cadastro, o salão terá acesso à sua área
+                exclusiva para realizar e acompanhar os pedidos.
+              </p>
+            </>
+          ) : (
+            <div className="mt-9 rounded-[1.5rem] border border-green-200 bg-green-50 px-6 py-8 text-center">
+              <h3 className="text-2xl font-bold text-green-800">
+                Cadastro recebido com sucesso!
+              </h3>
+
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-green-700">
+                Obrigado pelo seu interesse em fazer parte do Beleza &amp;
+                Empoderamento. Seu cadastro foi recebido e ficará aguardando
+                aprovação.
+              </p>
+
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-green-700">
+                Após a aprovação, você receberá as orientações para acessar sua
+                área exclusiva e realizar seus pedidos.
+              </p>
+            </div>
+          )}
         </form>
       </section>
     </main>
