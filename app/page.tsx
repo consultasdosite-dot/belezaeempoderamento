@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 
 export default function Home() {
@@ -181,6 +182,42 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* RODAPÉ INSTITUCIONAL */}
+      <footer className="border-t border-[#eadce1] bg-[#fffaf7] px-6 py-12 text-center">
+        <div className="mx-auto max-w-6xl">
+          <p className="text-xl font-bold text-[#9d4969]">
+            Beleza & Empoderamento
+          </p>
+
+          <p className="mt-3 text-sm leading-6 text-[#66545c]">
+            Uma iniciativa de Oscar Ahumada — Numerólogo das Estrelas
+          </p>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-medium text-[#9d4969]">
+            <a
+              href="https://wa.me/5531972159908"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              Contato
+            </a>
+
+            <span className="text-[#806c75]">
+              Política de Privacidade
+            </span>
+
+            <span className="text-[#806c75]">
+              Termos de Uso
+            </span>
+          </div>
+
+          <p className="mt-8 text-xs text-[#806c75]">
+            © 2026 Beleza & Empoderamento — Todos os direitos reservados.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }
