@@ -12,7 +12,7 @@ export default function Home() {
             <div className="w-full overflow-hidden rounded-[2rem] bg-white p-3 shadow-xl">
               <div className="relative h-[560px] w-full md:h-full md:min-h-[720px]">
                 <Image
-                  src="/noiva-dia-da-noiva.png"
+                  src="/experiencia-noiva.png"
                   alt="Noiva vivendo um momento especial no Dia da Noiva"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
