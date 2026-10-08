@@ -574,7 +574,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
 
   return (
 
-    <main className="min-h-screen bg-[#fffaf7] text-[#2b1d24]">
+    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#fffaf7] text-[#2b1d24]">
 
       {/* HERO - COMPUTADOR */}
       <section className="relative hidden h-[100svh] min-h-[650px] max-h-[760px] overflow-hidden lg:block">
@@ -658,7 +658,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
       </section>
 
       {/* HERO - CELULAR / TABLET */}
-      <section className="relative h-[100svh] min-h-[640px] overflow-hidden lg:hidden">
+      <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden lg:hidden">
         <Image
           src="/noiva-oscar-mobile.png"
           alt="Noiva conversando com Oscar Ahumada"
@@ -669,9 +669,9 @@ Quero saber mais sobre a análise completa para o meu casamento.`
         />
 
         {/* FORMULÁRIO DENTRO DA FOTO */}
-        <div className="absolute bottom-3 left-3 right-3 z-20">
-          <div className="mx-auto w-full max-w-[560px] rounded-[22px] border border-white/80 bg-[#fffaf7]/94 p-3 shadow-2xl backdrop-blur-md">
-            <div className="grid gap-2">
+        <div className="absolute bottom-3 left-3 right-3 z-20 min-w-0">
+          <div className="mx-auto w-full min-w-0 max-w-[560px] rounded-[22px] border border-white/80 bg-[#fffaf7]/94 p-3 shadow-2xl backdrop-blur-md">
+            <div className="grid min-w-0 gap-2">
               <div>
                 <label htmlFor="nomeSolteiraMobile" className="mb-0.5 block text-[10px] font-bold text-[#2b1d24]">
                   Nome Completo de Solteira
@@ -685,7 +685,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
                     limparResultado();
                   }}
                   placeholder="Digite seu nome completo"
-                  className="w-full rounded-xl border border-[#ead8df] bg-white px-3 py-2.5 text-xs text-[#2b1d24] outline-none focus:border-[#a65d78] focus:ring-4 focus:ring-[#a65d78]/10"
+                  className="block w-full min-w-0 max-w-full rounded-xl border border-[#ead8df] bg-white px-3 py-2.5 text-base text-[#2b1d24] outline-none focus:border-[#a65d78] focus:ring-4 focus:ring-[#a65d78]/10"
                 />
               </div>
 
@@ -702,7 +702,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
                     limparResultado();
                   }}
                   placeholder="Como pretende usar seu nome?"
-                  className="w-full rounded-xl border border-[#ead8df] bg-white px-3 py-2.5 text-xs text-[#2b1d24] outline-none focus:border-[#a65d78] focus:ring-4 focus:ring-[#a65d78]/10"
+                  className="block w-full min-w-0 max-w-full rounded-xl border border-[#ead8df] bg-white px-3 py-2.5 text-base text-[#2b1d24] outline-none focus:border-[#a65d78] focus:ring-4 focus:ring-[#a65d78]/10"
                 />
               </div>
 
@@ -718,7 +718,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
                     setDataCasamento(event.target.value);
                     limparResultado();
                   }}
-                  className="w-full rounded-xl border border-[#ead8df] bg-white px-3 py-2.5 text-xs text-[#2b1d24] outline-none focus:border-[#a65d78] focus:ring-4 focus:ring-[#a65d78]/10"
+                  className="block w-full min-w-0 max-w-full rounded-xl border border-[#ead8df] bg-white px-3 py-2.5 text-base text-[#2b1d24] outline-none focus:border-[#a65d78] focus:ring-4 focus:ring-[#a65d78]/10"
                 />
               </div>
             </div>
@@ -1028,7 +1028,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
 
         <div
 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#2b1d24]/80 px-4 py-5 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden bg-[#2b1d24]/80 px-3 py-4 sm:px-4 sm:py-5 backdrop-blur-sm"
 
           role="dialog"
 
@@ -1038,7 +1038,7 @@ Quero saber mais sobre a análise completa para o meu casamento.`
 
         >
 
-          <div className="relative max-h-[94vh] w-full max-w-xl overflow-y-auto rounded-[30px] bg-white p-6 text-[#2b1d24] shadow-2xl sm:p-8">
+          <div className="relative max-h-[calc(100dvh-2rem)] w-full min-w-0 max-w-xl overflow-x-hidden overflow-y-auto overscroll-contain break-words rounded-[30px] bg-white p-4 text-[#2b1d24] shadow-2xl sm:p-8">
 
             <button
 
