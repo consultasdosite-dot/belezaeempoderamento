@@ -169,7 +169,7 @@ export default function Home() {
           </div>
 
           {/* NOVA IMAGEM */}
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center">
             <div className="overflow-hidden rounded-[2rem] bg-[#fffaf7] p-3 shadow-xl">
               <Image
                 src="/presente-noiva-oscar.png"
@@ -179,6 +179,14 @@ export default function Home() {
                 className="h-auto w-full max-w-[520px] rounded-[1.5rem]"
               />
             </div>
+
+            {/* BOTÃO DE CADASTRO DO PARCEIRO */}
+            <a
+              href="/cadastro-parceiro"
+              className="mt-8 inline-block rounded-full bg-[#9d4969] px-8 py-4 text-center text-base font-bold text-white shadow-lg transition hover:scale-105 md:text-lg"
+            >
+              QUERO SER PARCEIRO
+            </a>
           </div>
         </div>
       </section>
